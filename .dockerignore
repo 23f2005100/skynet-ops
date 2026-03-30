@@ -1,0 +1,8 @@
+.env
+__pycache__
+*.pyc
+events.db
+.git
+.gitignore
+docs/
+.github/
