@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  IMAGE_NAME: skynet-ops-audit-service
+  IMAGE_NAME: skynet-ops
 
 jobs:
   test:
@@ -95,7 +95,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/skynet-ops-audit-service:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/skynet-ops:latest
             docker stop skynet-ops || true
             docker rm skynet-ops || true
             docker run -d \
@@ -104,8 +104,8 @@ jobs:
               -p 80:8000 \
               -e APP_ENV=dev \
               -e LOG_LEVEL=INFO \
-              -e SERVICE_NAME=skynet-ops-audit-service \
-              ${{ secrets.DOCKERHUB_USERNAME }}/skynet-ops-audit-service:latest
+              -e SERVICE_NAME=skynet-ops \
+              ${{ secrets.DOCKERHUB_USERNAME }}/skynet-ops:latest
             for i in {1..5}; do
               sleep 3
               STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/health)
